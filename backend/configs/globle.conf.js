@@ -1,0 +1,7 @@
+const config = {
+  JWT_ACCESS_TOKEN_SECRET:
+    "d184bb49e2360b98106c186efca76ef94688a94ac75b4c6c17d954d294fdd74f51f32896b3780c2bbbdd720bd3fe2506538e79364e96cf0ba1d279ad277149a9f9678f12b8a549194",
+  JWT_ACCESS_TOKEN_EXPIRE: "7d",
+};
+
+export default config;
