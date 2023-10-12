@@ -25,9 +25,11 @@ import {
   GETAllProducts,
   GETProductById,
   POSTUpdateProduct,
+  GETSubCatByCatId,
 } from "../controller/adminController.js";
 
 import { fileURLToPath } from "url";
+// import {p1} from "../../frontend/images/p1.png";
 
 // import { singleImage } from "../middleware/SingleImageUpload.js";
 import multer from "multer";
@@ -60,8 +62,16 @@ import userAuth from "../middleware/user.auth.js";
 // const __filename = fileURLToPath(import.meta.path);
 // const __dirname = path.dirname(__filename);
 
+// import {} from "../../frontend/images";
+// import {} from "../../frontend/src/public/images"
 const upload = multer({
-  dest: "./public/data/uploads/",
+  // dest: "./public/data/uploads/",
+  dest: "../frontend/src/public/images",
+  // F:\BookMYCloth\backend\public\data\uploads
+  // backend\public\data\uploads
+
+  //frontend\images
+  // F:\BookMYCloth\frontend\images
   fileFilter: (req, file, cb) => {
     if (
       file.mimetype !== "image/png" &&
@@ -78,7 +88,7 @@ const upload = multer({
       cb(null, file.originalname);
     },
     destination: (req, file, cb) => {
-      cb(null, "./public/data/uploads/");
+      cb(null, "../frontend/src/public/images");
     },
   }),
 });
@@ -116,4 +126,8 @@ adminrouter.get("/getallproducts", userAuth, GETAllProducts);
 adminrouter.get("/getproductbyid/:id", userAuth, GETProductById);
 adminrouter.put("/updateproduct/:id", userAuth, POSTUpdateProduct);
 //pending updation of products...
+
+
+//new apis
+adminrouter.get("/getsubcatbycatid/:id", userAuth, GETSubCatByCatId);
 export default adminrouter;
