@@ -23,9 +23,10 @@ const createTokenPromise = (payload, key, options) => {
 export const POSTAdminSignup = async (req, res) => {
   console.log("req.body...", req.body);
   console.log("file name .... ", req.file);
-  // console.log("req....", req);
+  console.log("req....", req);
   const requestBody = req.body;
   const requestFile = req.file;
+  console.log("request file ,,,", requestFile);
   let validationRule = {
     userName: "required",
     userEmail: "required|email",
@@ -373,6 +374,21 @@ export const GETAllSubCategories = async (req, res) => {
   });
 };
 
+//get sub category by category id
+export const GETSubCatByCatId = async (req, res) => {
+  const id = req.params.id;
+  console.log("id...", id);
+  let getsubcatbycatid = await SubCatModel.find({ cat_id: id })
+    .populate("cat_id")
+    .exec()
+    .then((subcat) => {
+      res.status(200).json({
+        subcategory: subcat,
+      });
+    });
+};
+
+
 export const GETSubCatById = async (req, res) => {
   const id = req.params.id;
   console.log("id...", id);
@@ -496,14 +512,16 @@ export const POSTUpdateColor = async (req, res) => {
     });
 };
 export const POSTAddProduct = async (req, res) => {
-  // console.log("files :... ", req.files);
+  console.log("files :... ", req.files);
   // console.log("colors:....", req.body.colors);
   // console.log("type ...", typeof req.body.colors);
   const requestBody = req.body;
   const requestFile = req.files;
   let images = [];
   for (let i = 0; i < requestFile.length; i++) {
-    images[i] = requestFile[0].path;
+    console.log("File name : ", requestFile[i].filename);
+    images[i] = requestFile[i].filename;
+    console.log("images...", images[i]);
   }
   if (images == []) {
     return res.status(400).json({
@@ -529,23 +547,22 @@ export const POSTAddProduct = async (req, res) => {
     });
   }
 
-  let newProduct = await ProductModel.create(requestBody)
-    // ({
-    //   product_name: requestBody.product_name,
-    //   product_price: requestBody.product_price,
-    //   discount_rate: requestBody.discount_rate,
-    //   avail_mtr: requestBody.avail_mtr,
-    //   is_avail: requestBody.is_avail,
-    //   cgst_rate: requestBody.cgst_rate,
-    //   sgst_rate: requestBody.sgst_rate,
-    //   igst_rate: requestBody.igst_rate,
-    //   images: images,
-    //   hsn_code: requestBody.hsn_code,
-    //   colors: requestBody.colors,
-    //   product_desc: requestBody.product_desc,
-    //   brand_id: requestBody.brand_id,
-    //   subcat_id: requestBody.subcat_id,
-    // })
+  let newProduct = await ProductModel.create({
+    product_name: requestBody.product_name,
+    product_price: requestBody.product_price,
+    discount_rate: requestBody.discount_rate,
+    avail_mtr: requestBody.avail_mtr,
+    is_avail: requestBody.is_avail,
+    cgst_rate: requestBody.cgst_rate,
+    sgst_rate: requestBody.sgst_rate,
+    igst_rate: requestBody.igst_rate,
+    images: images,
+    hsn_code: requestBody.hsn_code,
+    colors: requestBody.colors,
+    product_desc: requestBody.product_desc,
+    brand_id: requestBody.brand_id,
+    subcat_id: requestBody.subcat_id,
+  })
     .then((product) => {
       res.status(200).json({
         message: "Product Added successfully",
@@ -574,6 +591,7 @@ export const GETAllProducts = async (req, res) => {
 };
 export const GETProductById = async (req, res) => {
   const id = req.params.id;
+  console.log(id);
   let productbyid = await ProductModel.findOne({ _id: id })
     .populate("brand_id")
     .populate({ path: "subcat_id", populate: { path: "cat_id" } })
@@ -658,12 +676,12 @@ const GETOrderById = async (req, res) => {
 export const POSTUpdateOrder = async (req, res) => {
   const _id = req.params.id;
   const requestBody = req.body;
-  const user = req.user;  //user is admin 
+  const user = req.user; //user is admin
   console.log("request body...", requestBody);
   console.log("user...", user);
   let updatevalidationRule = {
     status: "required",
-  };  
+  };
   let updatevalidation = new Validator(requestBody, updatevalidationRule);
   if (updatevalidation.fails()) {
     return res.status(400).json({
@@ -689,5 +707,4 @@ export const POSTUpdateOrder = async (req, res) => {
       message: "Error ocured during updating order";
       error: err;
     });
-
-}
+};
