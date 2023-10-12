@@ -4,6 +4,8 @@ import axios from "axios";
 import { Login } from "./admin/Login";
 import { HomeAdmin } from "./admin/HomeAdmin";
 import { AddProduct } from "./admin/AddProduct";
+import { ShowAllProds } from "./admin/ShowAllProds";
+import { GetProdById } from "./admin/GetProdById";
 // import Dash from "./sidebar/Dash";
 function App() {
   // axios.defaults.baseURL = "https://bookmycloth-mern.onrender.com/api/";
@@ -14,7 +16,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />}></Route>
         <Route path="/admin/home" element={<HomeAdmin />}></Route>
+
         <Route path="/admin/addproduct" element={<AddProduct />}></Route>
+        <Route path="/admin/showallproduct" element={<ShowAllProds />}></Route>
+        <Route path="/admin/getprodbyid/:_id" element={<GetProdById />}></Route>
 
         {/* <Route path="/" element={<Login />}></Route> */}
         {/* <Route path="/admin/home" element={<Homeadmin />}></Route>

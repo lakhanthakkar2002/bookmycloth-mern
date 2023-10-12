@@ -79,6 +79,8 @@ export default function SideNav() {
           <ListItemButton sx={{ fontWeight: 'lg', justifyContent:'center' }} component={Link} to="/admin/home"
             >Dashboard</ListItemButton>
           <ListItemButton  sx={{ fontWeight: 'lg', justifyContent:'center' }}  component={Link} to="/admin/addproduct">Add Product</ListItemButton>
+          <ListItemButton  sx={{ fontWeight: 'lg', justifyContent:'center' }}  component={Link} to="/admin/showallproduct">Show All Products</ListItemButton>
+ 
           <ListItemButton>Add Product</ListItemButton>
           <ListItemButton>Contact</ListItemButton>
         </List>

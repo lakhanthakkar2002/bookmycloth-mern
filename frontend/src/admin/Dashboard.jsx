@@ -5,9 +5,19 @@ import { Box } from '@mui/material';
 import axios from 'axios';
 import { getGridRowElement } from '@mui/x-data-grid/utils/domUtils';
 import { getRowIdFromRowModel } from '@mui/x-data-grid/internals';
+import { Typography } from '@mui/joy';
+import styled from '@emotion/styled';
 
 export const Dashboard = () => {
 
+
+  function DataGridTitle() {
+    return(
+        <Box style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <Typography variant="h5">Users</Typography>
+        </Box>
+    )
+}
   const {data,loading} = useDemoData({
     dataSet: 'Commodity',
     rowLength: 100,
@@ -18,11 +28,13 @@ export const Dashboard = () => {
   function CustomToolbar() {
     return (
       <GridToolbarContainer>
-        <GridToolbarExport  
+        <GridToolbarExport 
         printOptions={
-          { disableToolbarButton: true,
-            fileName:"products.csv"
-        
+          { 
+            fileName:"products.csv",
+            hideToolbar:true,
+            allColumns:true,
+
         }}
         csvOptions={
          { 
@@ -73,17 +85,21 @@ export const Dashboard = () => {
       <br />
       <h1>Dashboard</h1>
 
-      <Box style={{ height: 250, width: '100%' }}>
-   
-        <DataGrid  loading={loading} autoHeight  sx={{boxShadow:2,border:2,fontSize:20, '@media print': {
+      {/* <Box  style={{ height: 250, width: '100%', }}>  */}
+      {/* <h1>Products</h1> */}
+        <DataGrid title="Products" components={{Toolbar:DataGridTitle}}  loading={loading} autoHeight  sx={{boxShadow:2,border:2, fontSize:20, '@media print': {
       '.MuiDataGrid-main': { color: 'rgba(0, 0, 0, 0.87)' },
-    },}}
-        
+    },
+    
+  
+  }}
+    
         columns={[{field: 'id',flex:1}, {field:"product_name",flex:1}, {field:"product_price",flex:1}, {field:"discount_rate",flex:1}, {field:"is_avail",flex:1}, {field:"product_desc",flex:1},{field:"avail_mtr",flex:1}]}
         // rows={products}
+     
 
         slots={{
-          toolbar: CustomToolbar,
+          toolbar: CustomToolbar,          
           // hideFooter: true,
           // hideToolbar: true,
         }}
@@ -113,11 +129,9 @@ export const Dashboard = () => {
       // slotProps={{ toolbar: { printOptions: { disableToolbarButton: true } } }}
         
          >
-          
+
           </DataGrid> 
-      </Box>
-
-
+      {/* </Box> */}
 
       </div>
   )
